@@ -1,14 +1,19 @@
 <template>
   <section class="container">
+    <div>
+      <h1 class="u-font-size-32 u-text-center u-line-height-2 u-capitalize">
+        New Guests
+      </h1>
+    </div>
     <table class="table is-selected-columns-mobile">
       <thead class="table-thead">
         <tr class="table-row">
-          <th class="table-thead-col">
+          <th class="table-thead-col" style="--p-col-width: 120">
             <span class="eyebrow-heading-3">Full Name</span>
           </th>
           <th
             class="table-thead-col is-only-desktop"
-            style="--p-col-width: 120"
+            style="--p-col-width: 250"
           >
             <span class="eyebrow-heading-3">Messages</span>
           </th>
@@ -31,25 +36,26 @@
         <tr
           class="table-row"
           v-for="booking in bookings.documents"
-          :key="booking.id"
+          :key="booking.$id"
         >
-          <td class="table-col" data-title="Name" :name="booking.name">
+        <!-- table data goes here... -->
+          <td class="table-col" data-title="Name">
             <div class="u-inline-flex u-cross-center u-gap-12">
               <span class="text u-break-word u-line-height-1-5">{{
-                name
+                booking.name
               }}</span>
             </div>
           </td>
-          <td class="table-col is-only-desktop" data-title="Message" :message="booking.message">
+          <td class="table-col is-only-desktop" data-title="Message">
             <div class="text">
-              <span class="text">{{ message }}</span>
+              <span class="text">{{ booking.message }}</span>
             </div>
           </td>
-          <td class="table-col is-only-desktop" data-title="Date" :date="booking.date">
-            <span class="text">{{ date }}</span>
+          <td class="table-col is-only-desktop" data-title="Date">
+            <span class="text">{{ booking.date }}</span>
           </td>
-          <td class="table-col is-only-desktop" data-title="Time" :time="booking.time">
-            <time class="text">{{ time }}</time>
+          <td class="table-col is-only-desktop" data-title="Time">
+            <time class="text">{{ booking.time }}</time>
           </td>
           <td class="table-col u-overflow-visible">
             <button
@@ -62,20 +68,10 @@
         </tr>
       </tbody>
     </table>
-    {{ bookings }}
   </section>
 </template>
 <script>
 import { account, client } from "~/utils/web -init";
-
-account.createAnonymousSession().then(
-  (response) => {
-    console.log(response);
-  },
-  (error) => {
-    console.log(error);
-  }
-);
 
 export default {
   name: "dashboard",

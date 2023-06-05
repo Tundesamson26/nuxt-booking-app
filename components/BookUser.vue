@@ -137,6 +137,7 @@ export default {
           )
           .then((response) => {
             console.log(response); // Success
+            alert("booking sent in");
             // this.$router.push({ path: `dashboard` });
           });
       } catch (error) {
