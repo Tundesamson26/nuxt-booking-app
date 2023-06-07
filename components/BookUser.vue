@@ -10,7 +10,9 @@
       "
     >
       <h1 class="u-text-center u-font-size-32">Book Me</h1>
-      <NuxtLink to="/dashboard" class="u-small" style="padding-right: 30px">Dashboard</NuxtLink>
+      <NuxtLink to="/dashboard" class="u-small" style="padding-right: 30px"
+        >Dashboard</NuxtLink
+      >
     </div>
     <div
       class="card u-cross-center u-width-full-line u-max-width-500"
@@ -42,7 +44,13 @@
             <li class="form-item">
               <label class="label">Check-In</label>
               <div class="input-text-wrapper">
-                <input type="date" name="date" v-model="date" />
+                <input
+                  type="date"
+                  name="date"
+                  v-model="date"
+                  :min="minDate"
+                  :max="maxDate"
+                />
               </div>
             </li>
             <li class="form-item">
@@ -81,10 +89,8 @@
       </form>
     </div>
   </section>
-  <div>
-  </div>
+  <div></div>
 </template>
-
 <script lang="ts">
 import "@appwrite.io/pink"; // optionally, add icons
 import "@appwrite.io/pink-icons";
@@ -106,7 +112,14 @@ export default {
       message: "",
       date: "",
       time: "",
+      minDate: "2023-06-01", // Define the minimum selectable date
+      maxDate: "2023-06-30",
     };
+  },
+  computed: {
+    blockedDates() {
+      return ["2023-06-10", "2023-06-15", "2023-06-20"]; // Replace with your actual blocked dates array
+    },
   },
   mounted() {
     if (account.get !== null) {
@@ -122,6 +135,10 @@ export default {
 
   methods: {
     async uploadBooking() {
+      if (this.blockedDates.includes(this.date)) {
+        alert("This date is blocked for booking");
+        return; // Stop the execution of the method
+      }
       try {
         await databases
           .createDocument(

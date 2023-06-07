@@ -61,8 +61,9 @@
             <button
               class="button is-text is-only-icon"
               aria-label="more options"
+              @click="deleteBookings(booking.$id)"
             >
-              <span class="icon-dots-horizontal" aria-hidden="true"></span>
+              <span class="icon-trash" aria-hidden="true"></span>
             </button>
           </td>
         </tr>
@@ -111,6 +112,21 @@ export default {
         console.log(response); // Success);
       } catch (error) {
         console.log(error, "error");
+      }
+    },
+
+    async deleteBookings(document_id) {
+      try {
+        await databases.deleteDocument(
+          "64681868ceef66544a00",
+          "64681913b4c68fd83d28",
+          document_id
+        );
+        alert("Item has been deleted successfully");
+        await this.getBookings();
+      } catch (error) {
+        console.log("Error deleting product:", error.message);
+        alert("Item was not deleted");
       }
     },
   },
